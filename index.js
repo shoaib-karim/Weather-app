@@ -8,7 +8,7 @@ const error404 = document.querySelector(".not-found");
 
 //an event listener is added to the search button element that listens for a click event. When the button is clicked, the code inside the event listener is executed.//
 
-search.addEventListener("click", () => {
+search.addEventListener("click", async () => {
   // the code defines a constant APIKey with the API key required to make a request to the OpenWeatherMap API. Then, the city variable is set to the value of the input element with a class of "search-box". If the input is empty, the function returns and does nothing.//
 
   const APIKey = "fe85daf0bf0f3cd9ea3106e8cd67e6e7";
@@ -18,18 +18,20 @@ search.addEventListener("click", () => {
 
   // a fetch() request is made to the OpenWeatherMap API using the city variable and the APIKey constant. The response is converted to JSON format using the .json() method. If the response has a cod value of "404", the code inside the if statement is executed. This code sets the height of the container to 400 pixels, hides the weatherBox and weatherDetails HTML elements, and displays the error404 HTML element.//
 
-  fetch(
+  await fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${APIKey}`
   )
-    .then((response) => response.json())
-    .then((json) => {
-      if (json.cod === "404") {
+    .then(async (response) => {
+      const json = await response.json();
+      console.log(json);
+
+      if (json.cod === 404) {
         container.style.height = "400px";
         weatherBox.style.display = "none";
         weatherDetails.style.display = "none";
         error404.style.display = "block";
         error404.classList.add("fadeIn");
-        return;
+        return false;
       }
 
       //If the response is successful and does not have a cod value of "404", the code inside the else statement is executed. The error404 HTML element is hidden and the fadeIn class is removed. The code then uses the querySelector() method to select several HTML elements and store them in variables. These variables are used to display the weather information retrieved from the API. Finally, the weatherBox and weatherDetails HTML elements are displayed and the fadeIn class is added to both elements, and the container height is set to 590 pixels.//
@@ -44,7 +46,8 @@ search.addEventListener("click", () => {
         ".weather-details .humidity span"
       );
       const wind = document.querySelector(".weather-details .wind span");
-
+      // const dustomi = document.getElementById("dustomi");
+      // dustomi.innerHTML = json.main.temp;
       //The first line sets the text content of an HTML element with the ID "temperature". The text is determined by a variable called "json" and contains the temperature in Celsius obtained from a weather API. The "parseInt()" function is used to convert the temperature from a string to an integer, and it's then surrounded by HTML tags that display the degree symbol.//
 
       temperature.innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`;
@@ -78,6 +81,10 @@ search.addEventListener("click", () => {
           break;
 
         case "Haze":
+          image.src = "images/mist.png";
+          break;
+
+        case "Mist":
           image.src = "images/mist.png";
           break;
 

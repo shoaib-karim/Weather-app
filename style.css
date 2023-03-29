@@ -108,6 +108,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+  color: red;
 }
 
 .weather-details .humidity,
@@ -169,9 +170,10 @@ body {
 
 .weather-box,
 .weather-details {
-  scale: 0;
-  opacity: 0;
+  scale: 1;
+  opacity: 1; 
 }
+
 .fade-in {
   animation: 0.5 fadeIn forwards;
   animation-delay: 0.5s;
