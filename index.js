@@ -72,8 +72,8 @@ search.addEventListener("click", async () => {
           image.src = "images/rain.png";
           break;
 
-        case "Snow":
-          image.src = "images/snow.png";
+        case "Thunderstorm":
+          image.src = "images/thunderstorm.png";
           break;
 
         case "Clouds":
